@@ -2,13 +2,14 @@
   "name": "heavens-above",
   "version": "1.0.0",
   "private": true,
-  "description": "Scripts for scraping data from the Heavens Above website.",
+  "description": "Scripts for scraping and automating data extraction from the Heavens Above website.",
   "main": "run.js",
   "scripts": {
     "start": "node run.js",
     "build": "echo \"No build step needed\"",
     "test": "jest --coverage",
-    "lint": "echo \"Lint check passed\""
+    "lint": "echo \"Lint check passed\"",
+    "cleanup": "echo \"Performing scheduled maintenance cleanup...\""
   },
   "dependencies": {
     "cheerio": "^1.0.0-rc.12",
@@ -25,7 +26,8 @@
     "Heavens Above",
     "web scraping",
     "satellites",
-    "automation"
+    "automation",
+    "maintenance"
   ],
   "author": "Mimi <stevenjoezhang@gmail.com> (https://zhangshuqiao.org)",
   "license": "GPL-3.0-or-later",
