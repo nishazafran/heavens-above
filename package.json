@@ -2,25 +2,30 @@
   "name": "heavens-above",
   "version": "1.0.0",
   "private": true,
-  "description": "Scripts for scraping the Heavens Above website.",
+  "description": "Scripts for scraping data from the Heavens Above website.",
   "main": "run.js",
   "scripts": {
     "start": "node run.js",
-    "build": "echo 'No build step needed'",
-    "test": "jest",
+    "build": "echo \"No build step needed\"",
+    "test": "jest --coverage",
     "lint": "echo \"Lint check passed\""
   },
   "dependencies": {
-    "cheerio": "^1.0.0-rc.3",
+    "cheerio": "^1.0.0-rc.12",
     "request": "^2.88.2"
+  },
+  "devDependencies": {
+    "jest": "^30.2.0"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/PKUPI/heavens-above.git"
+    "url": "https://github.com/PKUPI/heavens-above.git"
   },
   "keywords": [
     "Heavens Above",
-    "spider"
+    "web scraping",
+    "satellites",
+    "automation"
   ],
   "author": "Mimi <stevenjoezhang@gmail.com> (https://zhangshuqiao.org)",
   "license": "GPL-3.0-or-later",
@@ -29,9 +34,6 @@
   },
   "homepage": "https://github.com/PKUPI/heavens-above#readme",
   "engines": {
-    "node": ">=12.10.0"
-  },
-  "devDependencies": {
-    "jest": "^30.2.0"
+    "node": ">=16.0.0"
   }
 }
