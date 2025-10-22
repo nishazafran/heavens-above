@@ -24,7 +24,8 @@ jobs:
 
       - name: Run tests
         run: npm test
-        # Or if you have no tests: run: echo "No tests"
+        # Or if you have no tests:
+        # run: echo "No tests"
 
       - name: Build project
         run: npm run build
@@ -35,14 +36,15 @@ jobs:
       - name: Link Vercel Project
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
         run: |
-          vercel link --project $VERCEL_PROJECT_ID --token $VERCEL_TOKEN --yes
+          vercel link --token $VERCEL_TOKEN --scope $VERCEL_ORG_ID --project $VERCEL_PROJECT_ID --yes
 
       - name: Deploy to Vercel (production)
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
         run: |
-          export VERCEL_PROJECT_ID=$VERCEL_PROJECT_ID
-          vercel --prod --confirm --token "$VERCEL_TOKEN"
+          vercel --prod --confirm --token $VERCEL_TOKEN --scope $VERCEL_ORG_ID
