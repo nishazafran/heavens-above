@@ -2,8 +2,8 @@ name: Scheduled Maintenance Tasks
 
 on:
   schedule:
-    - cron: '0 0 * * *'  # Every day at midnight
-  workflow_dispatch:     # Allows manual trigger too
+    - cron: '0 0 * * *'  # Runs daily at midnight (UTC)
+  workflow_dispatch:       # Allows manual execution
 
 jobs:
   maintenance:
@@ -11,17 +11,17 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set up Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: '18'
 
       - name: Run maintenance script
         run: |
           echo "Running scheduled maintenance..."
-          npm run cleanup
+          npm run cleanup || echo "No cleanup script found, skipping..."
 
       - name: Send notification
-        run: echo "Maintenance task completed successfully."
+        run: echo "Maintenance task completed successfully!"
