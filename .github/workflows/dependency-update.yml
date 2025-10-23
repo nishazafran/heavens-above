@@ -1,34 +1,42 @@
-name: Scheduled Maintenance Tasks
+# .github/workflows/dependency-update.yml
+name: Dependency Update CI
 
 on:
-  schedule:
-    - cron: '0 0 * * *'  # Runs daily at midnight (UTC)
-  workflow_dispatch:       # Allows manual run
+  push:
+    branches:
+      - main
 
 jobs:
-  maintenance:
+  dependency-ci:
     runs-on: ubuntu-latest
+    # Optional: remove this line if you want it to run for all pushes, not just Dependabot
+    if: github.actor == 'dependabot[bot]'
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up Node.js
+      - name: Use Node.js 18
         uses: actions/setup-node@v4
         with:
           node-version: '18'
 
-      - name: Run maintenance script
-        run: |
-          echo "🧹 Starting scheduled maintenance..." | tee maintenance.log
-          npm run cleanup 2>&1 | tee -a maintenance.log || echo "⚠️ No cleanup script found or failed, skipping..." | tee -a maintenance.log
-          echo "✅ Maintenance completed successfully." | tee -a maintenance.log
+      - name: Install dependencies
+        run: npm ci
 
-      - name: Upload maintenance logs
+      - name: Run tests
+        run: npm test
+
+      - name: Save test report
+        if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: maintenance-logs
-          path: maintenance.log
+          name: dependency-test-report
+          path: coverage/
 
-      - name: Send notification
-        run: echo "📩 Maintenance task completed successfully and logs have been uploaded!"
+      - name: Auto-merge Dependabot PR (optional)
+        if: github.actor == 'dependabot[bot]'
+        uses: peter-evans/enable-pull-request-automerge@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          merge-method: squash
