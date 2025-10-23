@@ -3,7 +3,7 @@ name: Scheduled Maintenance Tasks
 on:
   schedule:
     - cron: '0 0 * * *'  # Runs daily at midnight (UTC)
-  workflow_dispatch:       # Allows manual execution
+  workflow_dispatch:       # Allows manual run
 
 jobs:
   maintenance:
@@ -20,8 +20,15 @@ jobs:
 
       - name: Run maintenance script
         run: |
-          echo "Running scheduled maintenance..."
-          npm run cleanup || echo "No cleanup script found, skipping..."
+          echo "🧹 Starting scheduled maintenance..." | tee maintenance.log
+          npm run cleanup 2>&1 | tee -a maintenance.log || echo "⚠️ No cleanup script found or failed, skipping..." | tee -a maintenance.log
+          echo "✅ Maintenance completed successfully." | tee -a maintenance.log
+
+      - name: Upload maintenance logs
+        uses: actions/upload-artifact@v4
+        with:
+          name: maintenance-logs
+          path: maintenance.log
 
       - name: Send notification
-        run: echo "Maintenance task completed successfully!"
+        run: echo "📩 Maintenance task completed successfully and logs have been uploaded!"
