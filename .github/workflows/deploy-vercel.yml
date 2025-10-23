@@ -1,4 +1,4 @@
-name: Build Test Deploy → Vercel
+name: Build, Test & Deploy → Vercel
 
 on:
   push:
@@ -8,37 +8,44 @@ on:
 jobs:
   build-test-deploy:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout repo
+      # 1️⃣ Checkout the repository
+      - name: Checkout repository
         uses: actions/checkout@v4
 
+      # 2️⃣ Set up Node.js
       - name: Use Node.js 18
         uses: actions/setup-node@v4
         with:
           node-version: '18'
           cache: 'npm'
 
+      # 3️⃣ Install dependencies
       - name: Install dependencies
         run: npm ci
 
+      # 4️⃣ Run tests
       - name: Run tests
-        run: npm test
-        # If you don't have tests, replace with `run: echo "no tests"`
+        run: |
+          if [ -f package.json ] && grep -q "\"test\":" package.json; then
+            npm test
+          else
+            echo "No tests defined."
+          fi
 
+      # 5️⃣ Build project
       - name: Build project
-        run: npm run build
+        run: |
+          if [ -f package.json ] && grep -q "\"build\":" package.json; then
+            npm run build
+          else
+            echo "No build script defined."
+          fi
 
-      - name: Install Vercel CLI
-        run: npm install -g vercel
-
+      # 6️⃣ Deploy to Vercel
       - name: Deploy to Vercel (production)
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
         run: |
-          # use explicit project id & org id (recommended)
-          vercel --prod --confirm \
-            --token "$VERCEL_TOKEN" \
-            --scope "$VERCEL_ORG_ID" \
-            --project "$VERCEL_PROJECT_ID"
+          npx vercel deploy --prod --confirm
