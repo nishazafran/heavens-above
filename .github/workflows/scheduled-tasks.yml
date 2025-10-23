@@ -24,11 +24,11 @@ jobs:
           npm run cleanup 2>&1 | tee -a maintenance.log || echo "⚠️ No cleanup script found or failed, skipping..." | tee -a maintenance.log
           echo "✅ Maintenance completed successfully." | tee -a maintenance.log
 
-      - name: Upload maintenance logs
+      - name: Save log as artifact
         uses: actions/upload-artifact@v4
         with:
-          name: maintenance-logs
+          name: maintenance-log
           path: maintenance.log
 
-      - name: Send notification
-        run: echo "📩 Maintenance task completed successfully and logs have been uploaded!"
+      - name: Notify completion
+        run: echo "📦 Maintenance log uploaded as artifact successfully!"
