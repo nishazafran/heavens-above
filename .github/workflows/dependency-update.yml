@@ -2,7 +2,7 @@
 name: Dependency Update CI
 
 on:
-  pull_request:
+  push:
     branches:
       - main
     types: [opened, synchronize, reopened]
