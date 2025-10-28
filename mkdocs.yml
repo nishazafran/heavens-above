@@ -3,6 +3,7 @@ site_url: https://nishazafran.github.io/heavens-above/
 
 plugins:
   - search
+  - awesome-pages
 
 nav:
   - Home: index.md
