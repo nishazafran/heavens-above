@@ -1,9 +1,23 @@
 # My New Documentation Page
 
-This is a new documentation page for the project.
+Welcome to the new page of the Heavens Above documentation!  
 
-- Feature 1: Example
-- Feature 2: Example
-- Feature 3: Example
+## Overview
 
-Created on 28 Oct 2025.
+This page demonstrates how Markdown files are automatically deployed using GitHub Actions and GitHub Pages.  
+
+- ✅ Automatic deployment when changes are pushed
+- ✅ Markdown rendered as HTML on the live site
+- ✅ Navigation updated automatically via `mkdocs-awesome-pages-plugin`
+
+## Instructions
+
+1. Edit or add a new Markdown file in the `docs/` folder.
+2. Push your changes to the `main` branch.
+3. Wait for the GitHub Actions workflow to run.
+4. Visit your site to see the new content live.
+
+## Notes
+
+- You can use headings (`#`, `##`, `###`), lists (`-`, `*`, `1.`), links, images, and code blocks.
+- This page will appear automatically in the navigation if you’re using `awesome-pages` plugin.
