@@ -8,8 +8,9 @@
   "start": "node run.js",
   "build": "echo \"No build step needed\"",
   "test": "jest --coverage",
-  "lint": "eslint . --ext .js --env jest,node",
+"lint": "eslint . --ext .js",
   "lint:fix": "eslint . --ext .js --fix",
+
   "cleanup": "echo '🧹 Performing scheduled cleanup tasks...' && rm -rf temp/* || echo 'No temp folder to clean.'"
 },
 
