@@ -48,11 +48,12 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./site
 
-      # Step 6: Show deployed URLs in Actions logs
-      - name: Show deployed docs URLs
-        run: |
-          echo "Deployed Documentation URLs:"
-          for f in docs/*.md; do
-            filename=$(basename "$f" .md)
-            echo " - https://nishazafran.github.io/heavens-above/$filename/"
-          done
+  # Step 6: Show deployed docs URLs in Actions log
+- name: Show deployed docs URLs
+  run: |
+    echo "Deployed Documentation URLs:"
+    for f in docs/*.md; do
+      filename=$(basename "$f" .md)
+      echo " - https://nishazafran.github.io/heavens-above/$filename/"
+    done
+
