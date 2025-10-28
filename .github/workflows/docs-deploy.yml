@@ -7,7 +7,7 @@ on:
     paths:
       - 'docs/**'
       - 'mkdocs.yml'
-      - '.github/workflows/deploy-docs.yml'
+      - '.github/workflows/docs-deploy.yml'
 
 permissions:
   contents: write
@@ -52,9 +52,11 @@ jobs:
       - name: Show deployed docs URLs
         run: |
           echo "Deployed Documentation URLs:"
-          for d in site/*; do
-              if [ -d "$d" ]; then
-                  dirname=$(basename "$d")
-                  echo " - https://nishazafran.github.io/heavens-above/$dirname/"
+          for md in docs/*.md; do
+              filename=$(basename "$md" .md)
+              if [ "$filename" = "index" ]; then
+                  echo " - https://nishazafran.github.io/heavens-above/"
+              else
+                  echo " - https://nishazafran.github.io/heavens-above/$filename/"
               fi
           done
