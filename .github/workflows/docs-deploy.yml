@@ -7,7 +7,7 @@ on:
     paths:
       - 'docs/**'
       - 'mkdocs.yml'
-      - '.github/workflows/docs-deploy.yml'
+      - '.github/workflows/deploy-docs.yml'
 
 permissions:
   contents: write
@@ -22,41 +22,40 @@ jobs:
       cancel-in-progress: true
 
     steps:
-      # Step 1: Checkout repository
+      # 1️⃣ Checkout repository
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # Step 2: Set up Python
+      # 2️⃣ Setup Python
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.x'
 
-      # Step 3: Install MkDocs and plugins
-      - name: Install MkDocs, Material theme, and plugins
+      # 3️⃣ Install MkDocs & plugins
+      - name: Install MkDocs and plugins
         run: |
+          python -m pip install --upgrade pip
           pip install mkdocs mkdocs-material mkdocs-awesome-pages-plugin
 
-      # Step 4: Build documentation
+      # 4️⃣ Build documentation
       - name: Build documentation
         run: mkdocs build --strict
 
-      # Step 5: Deploy to GitHub Pages
+      # 5️⃣ Deploy to GitHub Pages
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./site
+          publish_branch: gh-pages
+          force_orphan: true
 
-      # Step 6: Show deployed docs URLs
+      # 6️⃣ Optional: Show deployed URLs in log
       - name: Show deployed docs URLs
         run: |
           echo "Deployed Documentation URLs:"
-          for md in docs/*.md; do
-              filename=$(basename "$md" .md)
-              if [ "$filename" = "index" ]; then
-                  echo " - https://nishazafran.github.io/heavens-above/"
-              else
-                  echo " - https://nishazafran.github.io/heavens-above/$filename/"
-              fi
+          for f in docs/*.md; do
+              name=$(basename "$f" .md)
+              echo " - https://nishazafran.github.io/heavens-above/$name/"
           done
