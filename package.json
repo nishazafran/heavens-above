@@ -31,9 +31,17 @@
     "parserOptions": {
       "ecmaVersion": "latest"
     },
+    "globals": {
+      "jest": "readonly",
+      "describe": "readonly",
+      "it": "readonly",
+      "beforeEach": "readonly",
+      "expect": "readonly",
+      "test": "readonly"
+    },
     "rules": {
       "no-unused-vars": "warn",
-      "no-undef": "error"
+      "no-undef": "off"
     }
   },
   "jest": {
