@@ -1,0 +1,14 @@
+version: 2
+updates:
+  # For npm, pip, or other ecosystems — add multiple if needed
+  - package-ecosystem: "npm" # or "pip", "maven", "gradle", etc.
+    directory: "/"            # Location of the manifest file (package.json, requirements.txt)
+    schedule:
+      interval: "weekly"      # Can be daily, weekly, or monthly
+    open-pull-requests-limit: 5
+    versioning-strategy: increase
+    reviewers:
+      - "your-github-username"   # Add reviewer(s)
+    commit-message:
+      prefix: "deps"
+      include: "scope"
