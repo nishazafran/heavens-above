@@ -22,21 +22,26 @@ jobs:
       cancel-in-progress: true
 
     steps:
+      # Step 1: Checkout repository
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      # Step 2: Set up Python
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.x'
 
-      - name: Install MkDocs and theme
+      # Step 3: Install MkDocs and plugins
+      - name: Install MkDocs, Material theme, and plugins
         run: |
-          pip install mkdocs mkdocs-material
+          pip install mkdocs mkdocs-material mkdocs-awesome-pages-plugin
 
+      # Step 4: Build documentation
       - name: Build documentation
         run: mkdocs build --strict
 
+      # Step 5: Deploy to GitHub Pages
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
