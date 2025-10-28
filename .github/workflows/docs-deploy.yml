@@ -1,4 +1,4 @@
-name: Documentation Deployment
+name: Deploy Documentation to GitHub Pages
 
 on:
   push:
@@ -6,31 +6,39 @@ on:
       - main
     paths:
       - 'docs/**'
+      - 'mkdocs.yml'
+      - '.github/workflows/deploy-docs.yml'
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
 
 jobs:
-  build-and-deploy:
+  build-deploy:
     runs-on: ubuntu-latest
+    concurrency:
+      group: "docs-deploy"
+      cancel-in-progress: true
 
     steps:
-      - name: Checkout Repository
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
+      - name: Setup Python
+        uses: actions/setup-python@v5
         with:
-          node-version: '20'
+          python-version: '3.x'
 
-      - name: Install Docsify
-        run: npm install -g docsify-cli
-
-      - name: Build Documentation
+      - name: Install MkDocs and theme
         run: |
-          echo "Building documentation..."
-          mkdir -p ./site
-          cp -r docs/* ./site/
+          pip install mkdocs mkdocs-material
+
+      - name: Build documentation
+        run: mkdocs build --strict
 
       - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
+        uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./site
