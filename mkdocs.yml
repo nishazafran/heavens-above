@@ -9,6 +9,7 @@ nav:
   - Home: index.md
   - New Doc: newdoc.md
   - New Page: newpage.md
+  - Test Page: testpage.md
 
 theme:
   name: material
