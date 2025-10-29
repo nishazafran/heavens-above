@@ -1,0 +1,22 @@
+name-template: '🚀 Release v$RESOLVED_VERSION'
+tag-template: 'v$RESOLVED_VERSION'
+categories:
+  - title: '✨ New Features'
+    labels:
+      - enhancement
+      - feature
+  - title: '🐛 Bug Fixes'
+    labels:
+      - bug
+  - title: '🧹 Maintenance'
+    labels:
+      - chore
+      - refactor
+change-template: '- $TITLE (#$NUMBER)'
+no-changes-template: 'No significant changes in this release.'
+template: |
+  ## Changes since last release
+
+  $CHANGES
+
+  **Full Changelog:** https://github.com/nishazafran/heavens-above/compare/$PREVIOUS_TAG...$NEW_TAG
