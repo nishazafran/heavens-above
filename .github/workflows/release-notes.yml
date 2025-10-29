@@ -1,0 +1,36 @@
+name: Generate and Publish Release Notes
+
+on:
+  push:
+    tags:
+      - 'v*'   # Runs whenever a tag like v1.0.0 or v2.5 is pushed
+
+permissions:
+  contents: write   # Needed to create releases
+  issues: read
+
+jobs:
+  generate-release:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1️⃣ Checkout code
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 2️⃣ Generate release notes automatically
+      - name: Generate release notes
+        id: notes
+        uses: release-drafter/release-drafter@v5
+        with:
+          config-name: release-drafter.yml
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # 3️⃣ Publish the release to GitHub
+      - name: Publish GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          body: ${{ steps.notes.outputs.body }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
