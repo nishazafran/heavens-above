@@ -10,6 +10,8 @@ nav:
   - New Doc: newdoc.md
   - New Page: newpage.md
   - Test Page: testpage.md
+  - File Page: file.md
+  
 
 theme:
   name: material
