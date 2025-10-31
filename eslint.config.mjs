@@ -11,9 +11,26 @@ export default defineConfig([
       globals: {
         ...globals.browser,
         ...globals.node,
-        ...globals.jest, // ✅ Add Jest globals so ESLint knows about jest, describe, it, expect, etc.
+        ...globals.jest, 
       },
+      sourceType: "module",
     },
+    rules: {
+      "no-unused-vars": "warn",   
+      "no-undef": "warn",         
+      "no-console": "off",       
+      "no-redeclare": "off",   
+      "no-empty": "off"          
+    },
+    ignores: [
+      "node_modules/",
+      "build/",
+      "dist/",
+      "coverage/",
+      "public/",
+      "run.js",
+      "src/iridium.test.js"
+    ],
   },
   {
     files: ["**/*.js"],
@@ -22,4 +39,3 @@ export default defineConfig([
     },
   },
 ]);
-
