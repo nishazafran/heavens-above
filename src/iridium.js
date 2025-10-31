@@ -1,3 +1,4 @@
+/* eslint-disable no-undef, no-unused-vars */
 const request = require("request");
 const cheerio = require("cheerio");
 const fs = require("fs");
