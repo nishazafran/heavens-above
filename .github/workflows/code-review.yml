@@ -14,7 +14,7 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      # Step 2: Set up Node.js environment (v20.18.1)
+      # Step 2: Set up Node.js environment
       - name: Set up Node.js 20
         uses: actions/setup-node@v4
         with:
@@ -27,38 +27,38 @@ jobs:
           rm -f package-lock.json
           npm install
 
-      # Step 4: Run ESLint (code linting)
+      # Step 4: Run ESLint (save report)
       - name: Run Linter
         run: |
           echo "Running ESLint..."
           mkdir -p reports
           npm run lint -- --format json --output-file reports/eslint-report.json || echo "⚠️ Linting failed, continuing..."
 
-      # Step 5: Run Tests with Coverage
+      # Step 5: Run Jest tests (save coverage report)
       - name: Run Tests
         run: |
           echo "Running Tests..."
           mkdir -p reports
           npm test -- --coverage --json --outputFile=reports/test-report.json || echo "⚠️ Tests failed, continuing..."
 
-      # Step 6: Initialize CodeQL (Static Analysis)
+      # Step 6: Initialize CodeQL (v3)
       - name: Initialize CodeQL
-        uses: github/codeql-action/init@v2
+        uses: github/codeql-action/init@v3
         with:
           languages: javascript
 
-      # Step 7: Perform CodeQL Analysis
+      # Step 7: Perform CodeQL Analysis (v3)
       - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@v2
+        uses: github/codeql-action/analyze@v3
 
-      # Step 8: Upload Reports as Artifacts
-      - name: Upload Review Reports
+      # Step 8: Upload Lint and Test Reports
+      - name: Upload Code Review Reports
         uses: actions/upload-artifact@v4
         with:
           name: code-review-reports
           path: reports/
 
-      # Step 9: Always succeed so the workflow completes cleanly
+      # Step 9: Always succeed
       - name: ✅ Always Succeed
         if: always()
         run: echo "✅ Code Review Workflow completed successfully (reports uploaded)."
