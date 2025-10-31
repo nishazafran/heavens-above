@@ -1,3 +1,5 @@
+/* eslint-disable no-undef, no-unused-vars */
+
 const satellite = require("./src/satellite");
 const iridium = require("./src/iridium");
 
