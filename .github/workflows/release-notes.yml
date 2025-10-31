@@ -14,11 +14,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1️⃣ Checkout code
+      # Step 1: Checkout the repository
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # 2️⃣ Generate release notes automatically
+      # Step 2: Generate release notes
       - name: Generate release notes
         id: notes
         uses: release-drafter/release-drafter@v5
@@ -27,7 +27,19 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      # 3️⃣ Publish the release to GitHub
+      # Step 3: Save release notes to file for artifact upload
+      - name: Save release notes to file
+        run: |
+          echo "${{ steps.notes.outputs.body }}" > release-notes-${{ github.ref_name }}.md
+
+      # Step 4: Upload release notes as artifact
+      - name: Upload Release Notes Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-notes-${{ github.ref_name }}
+          path: release-notes-${{ github.ref_name }}.md
+
+      # Step 5: Publish GitHub Release
       - name: Publish GitHub Release
         uses: softprops/action-gh-release@v2
         with:
